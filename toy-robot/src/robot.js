@@ -7,6 +7,8 @@ class ToyRobot {
 
   place(x, y, facing) {
     if (x < 0 || x > 4 || y < 0 || y > 4) {
+      this.x = null;
+      this.y = null;
       return;
     }
     this.x = x;

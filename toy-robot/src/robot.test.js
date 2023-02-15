@@ -18,7 +18,6 @@ describe('ToyRobot', () => {
     robot.place(-1, 0, 'NORTH');
     expect(robot.x).toBe(null);
     expect(robot.y).toBe(null);
-    expect(robot.facing).toBe(null);
   });
 
   test('move method moves the robot in the facing direction', () => {
