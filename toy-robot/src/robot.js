@@ -1,87 +1,97 @@
-class Robot {
+class ToyRobot {
   constructor() {
     this.x = 0;
     this.y = 0;
-    this.facing = "north";
+    this.facing = "NORTH";
   }
 
   place(x, y, facing) {
-    if (x >= 0 && x <= 4 && y >= 0 && y <= 4) {
-      this.x = x;
-      this.y = y;
-      this.facing = facing.toLowerCase();
+    if (x < 0 || x > 4 || y < 0 || y > 4) {
+      return;
     }
+    this.x = x;
+    this.y = y;
+    this.facing = facing;
   }
 
   move() {
+    if (this.facing === "NORTH") {
+      if (this.y < 4) {
+        this.y = this.y + 1;
+      }
+    } else if (this.facing === "EAST") {
+      if (this.x < 4) {
+        this.x = this.x + 1;
+      }
+    } else if (this.facing === "SOUTH") {
+      if (this.y > 0) {
+        this.y = this.y - 1;
+      }
+    } else if (this.facing === "WEST") {
+      if (this.x > 0) {
+        this.x = this.x - 1;
+      }
+    }
+  }
+
+  right() {
     switch (this.facing) {
-      case "north":
-        if (this.y < 4) {
-          this.y += 1;
-        }
+      case 'NORTH':
+        this.facing = 'EAST';
         break;
-      case "south":
-        if (this.y > 0) {
-          this.y -= 1;
-        }
+      case 'EAST':
+        this.facing = 'SOUTH';
         break;
-      case "east":
-        if (this.x < 4) {
-          this.x += 1;
-        }
+      case 'SOUTH':
+        this.facing = 'WEST';
         break;
-      case "west":
-        if (this.x > 0) {
-          this.x -= 1;
-        }
+      case 'WEST':
+        this.facing = 'NORTH';
+        break;
+      default:
         break;
     }
   }
 
-  turnLeft() {
+  left() {
     switch (this.facing) {
-      case "north":
-        this.facing = "west";
+      case 'NORTH':
+        this.facing = 'WEST';
         break;
-      case "south":
-        this.facing = "east";
+      case 'EAST':
+        this.facing = 'NORTH';
         break;
-      case "east":
-        this.facing = "north";
+      case 'SOUTH':
+        this.facing = 'EAST';
         break;
-      case "west":
-        this.facing = "south";
+      case 'WEST':
+        this.facing = 'SOUTH';
         break;
-    }
-  }
-
-  turnRight() {
-    switch (this.facing) {
-      case "north":
-        this.facing = "east";
-        break;
-      case "south":
-        this.facing = "west";
-        break;
-      case "east":
-        this.facing = "south";
-        break;
-      case "west":
-        this.facing = "north";
+      default:
         break;
     }
   }
 
   report() {
-    console.log(`${this.x},${this.y},${this.facing.toUpperCase()}`);
+    return { x: this.x, y: this.y, facing: this.facing };
   }
 }
 
-// Example usage:
-const robot = new Robot();
+module.exports = ToyRobot;
 
-robot.place(0, 0, "north"); // place the robot at (0, 0) facing north
-robot.move(); // move the robot one unit north to (0, 1)
-robot.turnRight(); // turn the robot to face east
-robot.move(); // move the robot one unit east to (1, 1)
-robot.report(); // output the robot's current position and facing direction (1,1,EAST)
+// Example usage:
+const robot = new ToyRobot();
+
+robot.place(0, 0, "NORTH");
+console.log("Before calling move:", robot);
+robot.move();
+console.log("After calling move:", robot);
+robot.move();
+console.log("After calling move:", robot);
+robot.left();
+console.log("After calling left:", robot);
+robot.right();
+console.log("After calling right:", robot);
+robot.right();
+console.log("After calling right:", robot);
+robot.report();
